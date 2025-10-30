@@ -1,0 +1,843 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CloudVault Pro - Secure File Storage & Sharing Platform</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='%2332a08a' d='M12 2L13.09 8.26L22 9L13.09 15.74L12 22L10.91 15.74L2 9L10.91 8.26L12 2Z'/></svg>">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --slate-50: #f8fafc;
+            --slate-100: #f1f5f9;
+            --slate-200: #e2e8f0;
+            --slate-300: #cbd5e1;
+            --slate-400: #94a3b8;
+            --slate-500: #64748b;
+            --slate-600: #475569;
+            --slate-700: #334155;
+            --slate-800: #1e293b;
+            --slate-900: #0f172a;
+            --slate-950: #020617;
+            --blue-50: #eff6ff;
+            --blue-500: #3b82f6;
+            --blue-600: #2563eb;
+            --blue-700: #1d4ed8;
+            --emerald-50: #ecfdf5;
+            --emerald-500: #10b981;
+            --emerald-600: #059669;
+            --emerald-700: #047857;
+            --red-50: #fef2f2;
+            --red-500: #ef4444;
+            --red-600: #dc2626;
+            --amber-50: #fffbeb;
+            --amber-500: #f59e0b;
+            --amber-600: #d97706;
+            --violet-50: #f5f3ff;
+            --violet-500: #8b5cf6;
+            --violet-600: #7c3aed;
+            --bg-primary: var(--slate-50);
+            --bg-secondary: #ffffff;
+            --bg-tertiary: var(--slate-100);
+            --bg-elevated: #ffffff;
+            --text-primary: var(--slate-900);
+            --text-secondary: var(--slate-600);
+            --text-tertiary: var(--slate-500);
+            --border-primary: var(--slate-200);
+            --border-secondary: var(--slate-300);
+            --accent-primary: var(--blue-600);
+            --accent-hover: var(--blue-700);
+            --success: var(--emerald-600);
+            --warning: var(--amber-600);
+            --error: var(--red-600);
+            --info: var(--violet-600);
+            --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            --font-mono: 'JetBrains Mono', 'SF Mono', Consolas, monospace;
+            --text-xs: 0.75rem;
+            --text-sm: 0.875rem;
+            --text-base: 1rem;
+            --text-lg: 1.125rem;
+            --text-xl: 1.25rem;
+            --text-2xl: 1.5rem;
+            --text-3xl: 1.875rem;
+            --text-4xl: 2.25rem;
+            --space-1: 0.25rem;
+            --space-2: 0.5rem;
+            --space-3: 0.75rem;
+            --space-4: 1rem;
+            --space-5: 1.25rem;
+            --space-6: 1.5rem;
+            --space-8: 2rem;
+            --space-10: 2.5rem;
+            --space-12: 3rem;
+            --space-16: 4rem;
+            --radius-sm: 0.375rem;
+            --radius-md: 0.5rem;
+            --radius-lg: 0.75rem;
+            --radius-xl: 1rem;
+            --radius-2xl: 1.25rem;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-primary: var(--slate-950);
+                --bg-secondary: var(--slate-900);
+                --bg-tertiary: var(--slate-800);
+                --bg-elevated: var(--slate-800);
+                --text-primary: var(--slate-100);
+                --text-secondary: var(--slate-300);
+                --text-tertiary: var(--slate-400);
+                --border-primary: var(--slate-800);
+                --border-secondary: var(--slate-700);
+                --accent-primary: var(--blue-500);
+                --accent-hover: var(--blue-400);
+                --success: var(--emerald-500);
+                --warning: var(--amber-500);
+                --error: var(--red-500);
+                --info: var(--violet-500);
+            }
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: var(--font-sans); background: var(--bg-primary); color: var(--text-primary); line-height: 1.6; -webkit-font-smoothing: antialiased; min-height: 100vh; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 var(--space-6); }
+        .header { background: var(--bg-secondary); border-bottom: 1px solid var(--border-primary); padding: var(--space-4) 0; position: sticky; top: 0; z-index: 50; backdrop-filter: blur(12px); }
+        .header-content { display: flex; justify-content: space-between; align-items: center; }
+        .brand { display: flex; align-items: center; gap: var(--space-3); font-weight: 700; font-size: var(--text-xl); color: var(--text-primary); text-decoration: none; }
+        .brand-icon { width: 32px; height: 32px; background: linear-gradient(135deg, var(--accent-primary), var(--info)); border-radius: var(--radius-lg); display: flex; align-items: center; justify-content: center; color: white; font-size: var(--text-lg); }
+        .nav-actions { display: flex; align-items: center; gap: var(--space-3); }
+        .btn { display: inline-flex; align-items: center; justify-content: center; gap: var(--space-2); padding: var(--space-3) var(--space-4); border-radius: var(--radius-md); font-size: var(--text-sm); font-weight: 500; font-family: inherit; border: none; cursor: pointer; transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1); text-decoration: none; white-space: nowrap; }
+        .btn-primary { background: var(--accent-primary); color: white; }
+        .btn-primary:hover { background: var(--accent-hover); transform: translateY(-1px); }
+        .btn-secondary { background: var(--bg-tertiary); color: var(--text-primary); border: 1px solid var(--border-primary); }
+        .btn-secondary:hover { background: var(--bg-secondary); border-color: var(--border-secondary); }
+        .btn-outline { background: transparent; color: var(--text-secondary); border: 1px solid var(--border-secondary); }
+        .btn-outline:hover { background: var(--bg-tertiary); color: var(--text-primary); }
+        .btn-danger { background: var(--error); color: white; }
+        .btn-danger:hover { background: var(--red-700); }
+        .btn-sm { padding: var(--space-2) var(--space-3); font-size: var(--text-xs); }
+        .btn-lg { padding: var(--space-4) var(--space-6); font-size: var(--text-base); }
+        .card { background: var(--bg-secondary); border: 1px solid var(--border-primary); border-radius: var(--radius-xl); box-shadow: var(--shadow-sm); }
+        .card-header { padding: var(--space-6); border-bottom: 1px solid var(--border-primary); }
+        .card-body { padding: var(--space-6); }
+        .card-title { font-size: var(--text-2xl); font-weight: 700; margin-bottom: var(--space-2); color: var(--text-primary); }
+        .card-subtitle { color: var(--text-secondary); font-size: var(--text-base); }
+        .main-content { padding: var(--space-8) 0; }
+        .auth-section { max-width: 480px; margin: var(--space-16) auto; }
+        .auth-tabs { display: flex; margin-bottom: var(--space-6); border-radius: var(--radius-lg); background: var(--bg-tertiary); padding: var(--space-1); }
+        .auth-tab { flex: 1; padding: var(--space-3) var(--space-4); background: transparent; border: none; border-radius: var(--radius-md); font-weight: 500; color: var(--text-secondary); cursor: pointer; transition: all 0.15s; }
+        .auth-tab.active { background: var(--bg-secondary); color: var(--text-primary); box-shadow: var(--shadow-sm); }
+        .form-group { margin-bottom: var(--space-5); }
+        .form-label { display: block; margin-bottom: var(--space-2); font-weight: 500; color: var(--text-primary); font-size: var(--text-sm); }
+        .form-control { width: 100%; padding: var(--space-3) var(--space-4); border: 1px solid var(--border-primary); border-radius: var(--radius-md); font-size: var(--text-base); background: var(--bg-secondary); color: var(--text-primary); transition: all 0.15s; }
+        .form-control:focus { outline: none; border-color: var(--accent-primary); box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1); }
+        .form-select { background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e"); background-position: right 12px center; background-repeat: no-repeat; background-size: 16px; padding-right: var(--space-10); -webkit-appearance: none; -moz-appearance: none; appearance: none; }
+        .upload-section { margin-bottom: var(--space-8); }
+        .upload-dropzone { border: 2px dashed var(--border-secondary); border-radius: var(--radius-xl); padding: var(--space-12); text-align: center; cursor: pointer; transition: all 0.2s; background: var(--bg-secondary); position: relative; overflow: hidden; }
+        .upload-dropzone:hover { border-color: var(--accent-primary); background: var(--bg-tertiary); }
+        .upload-dropzone.dragover { border-color: var(--accent-primary); background: var(--bg-tertiary); transform: scale(1.02); }
+        .upload-icon { width: 64px; height: 64px; margin: 0 auto var(--space-4); background: linear-gradient(135deg, var(--accent-primary), var(--info)); border-radius: var(--radius-2xl); display: flex; align-items: center; justify-content: center; font-size: var(--text-3xl); color: white; }
+        .upload-text { font-size: var(--text-xl); font-weight: 600; margin-bottom: var(--space-2); color: var(--text-primary); }
+        .upload-subtext { color: var(--text-secondary); font-size: var(--text-sm); }
+        .files-section { margin-top: var(--space-8); }
+        .files-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: var(--space-6); margin-top: var(--space-6); }
+        .file-card { background: var(--bg-secondary); border: 1px solid var(--border-primary); border-radius: var(--radius-xl); padding: var(--space-5); transition: all 0.2s; box-shadow: var(--shadow-sm); }
+        .file-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); border-color: var(--border-secondary); }
+        .file-header { display: flex; align-items: flex-start; gap: var(--space-4); margin-bottom: var(--space-4); }
+        .file-icon { width: 48px; height: 48px; border-radius: var(--radius-lg); display: flex; align-items: center; justify-content: center; font-size: var(--text-2xl); flex-shrink: 0; }
+        .file-info { flex: 1; min-width: 0; }
+        .file-name { font-weight: 600; margin-bottom: var(--space-1); color: var(--text-primary); word-break: break-word; }
+        .file-meta { color: var(--text-secondary); font-size: var(--text-sm); }
+        .file-security { margin: var(--space-4) 0; }
+        .security-badge { display: inline-flex; align-items: center; gap: var(--space-2); padding: var(--space-2) var(--space-3); border-radius: var(--radius-md); font-size: var(--text-xs); font-weight: 500; }
+        .security-public { background: var(--emerald-50); color: var(--success); }
+        .security-password { background: var(--amber-50); color: var(--warning); }
+        .security-private { background: var(--violet-50); color: var(--info); }
+        .file-actions { display: flex; gap: var(--space-2); margin-top: var(--space-4); }
+        .modal-backdrop { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(4px); z-index: 100; display: flex; align-items: center; justify-content: center; padding: var(--space-4); opacity: 0; visibility: hidden; transition: all 0.2s; }
+        .modal-backdrop.active { opacity: 1; visibility: visible; }
+        .modal { background: var(--bg-secondary); border-radius: var(--radius-xl); box-shadow: var(--shadow-xl); max-width: 500px; width: 100%; max-height: 90vh; overflow: hidden; transform: scale(0.95); transition: transform 0.2s; }
+        .modal-backdrop.active .modal { transform: scale(1); }
+        .modal-header { padding: var(--space-6); border-bottom: 1px solid var(--border-primary); display: flex; justify-content: space-between; align-items: center; }
+        .modal-title { font-size: var(--text-xl); font-weight: 700; color: var(--text-primary); }
+        .modal-close { background: none; border: none; font-size: var(--text-2xl); color: var(--text-secondary); cursor: pointer; padding: var(--space-2); border-radius: var(--radius-md); transition: all 0.15s; }
+        .modal-close:hover { background: var(--bg-tertiary); color: var(--text-primary); }
+        .modal-body { padding: var(--space-6); overflow-y: auto; max-height: calc(90vh - 140px); }
+        .modal-footer { padding: var(--space-6); border-top: 1px solid var(--border-primary); display: flex; gap: var(--space-3); justify-content: flex-end; }
+        .alert { padding: var(--space-4); border-radius: var(--radius-md); margin-bottom: var(--space-4); font-size: var(--text-sm); display: flex; align-items: center; gap: var(--space-2); }
+        .alert-success { background: var(--emerald-50); color: var(--success); border: 1px solid var(--success); }
+        .alert-error { background: var(--red-50); color: var(--error); border: 1px solid var(--error); }
+        .alert-warning { background: var(--amber-50); color: var(--warning); border: 1px solid var(--warning); }
+        .progress-bar { width: 100%; height: 6px; background: var(--bg-tertiary); border-radius: 999px; overflow: hidden; margin-top: var(--space-4); }
+        .progress-fill { height: 100%; background: linear-gradient(90deg, var(--accent-primary), var(--info)); border-radius: 999px; width: 0%; transition: width 0.3s ease; }
+        .link-display { background: var(--bg-tertiary); border: 1px solid var(--border-primary); border-radius: var(--radius-md); padding: var(--space-4); font-family: var(--font-mono); font-size: var(--text-sm); word-break: break-all; margin: var(--space-4) 0; color: var(--text-secondary); }
+        .empty-state { text-align: center; padding: var(--space-16) var(--space-8); color: var(--text-secondary); }
+        .empty-icon { width: 80px; height: 80px; margin: 0 auto var(--space-6); background: var(--bg-tertiary); border-radius: var(--radius-2xl); display: flex; align-items: center; justify-content: center; font-size: var(--text-4xl); opacity: 0.5; }
+        .footer { margin-top: var(--space-16); padding: var(--space-8) 0 var(--space-6); border-top: 1px solid var(--border-primary); background: var(--bg-secondary); text-align: center; }
+        .footer-content { color: var(--text-secondary); font-size: var(--text-base); display: flex; align-items: center; justify-content: center; gap: var(--space-2); }
+        .footer-heart { color: var(--error); animation: heartbeat 2s ease-in-out infinite; font-size: var(--text-base); }
+        @keyframes heartbeat { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.15); } }
+        .hidden { display: none !important; }
+        .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+        .text-center { text-align: center; }
+        .flex { display: flex; }
+        .items-center { align-items: center; }
+        .justify-between { justify-content: space-between; }
+        .gap-2 { gap: var(--space-2); }
+        .gap-4 { gap: var(--space-4); }
+        @media (max-width: 768px) {
+            .container { padding: 0 var(--space-4); }
+            .files-grid { grid-template-columns: 1fr; }
+            .modal { margin: var(--space-4); max-height: calc(100vh - 2rem); }
+            .nav-actions { gap: var(--space-2); }
+            .btn { padding: var(--space-2) var(--space-3); font-size: var(--text-xs); }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <a href="#" class="brand">
+                    <div class="brand-icon">☁️</div>
+                    <span>CloudVault Pro</span>
+                </a>
+                <nav class="nav-actions">
+                    <button class="btn btn-outline" id="loginBtn">Sign In</button>
+                    <button class="btn btn-primary" id="registerBtn">Get Started</button>
+                    <button class="btn btn-outline hidden" id="logoutBtn">Sign Out</button>
+                </nav>
+            </div>
+        </div>
+    </header>
+    <main class="main-content">
+        <div class="container">
+            <div id="authSection" class="auth-section">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="text-center">
+                            <div class="brand-icon" style="margin: 0 auto var(--space-4); width: 64px; height: 64px; font-size: var(--text-3xl);">☁️</div>
+                            <h1 class="card-title">Welcome to CloudVault Pro</h1>
+                            <p class="card-subtitle">Enterprise-grade file storage and sharing platform</p>
+                        </div>
+                        <div class="auth-tabs">
+                            <button class="auth-tab active" data-tab="login">Sign In</button>
+                            <button class="auth-tab" data-tab="register">Create Account</button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <form id="authForm">
+                            <div class="form-group">
+                                <label class="form-label" for="username">Username</label>
+                                <input type="text" class="form-control" id="username" placeholder="Enter your username" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="password">Password</label>
+                                <input type="password" class="form-control" id="password" placeholder="Enter your password" required>
+                            </div>
+                            <div id="authAlert"></div>
+                            <button type="submit" class="btn btn-primary btn-lg" style="width: 100%;" id="authSubmit">Sign In to CloudVault Pro</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div id="dashboardSection" class="hidden">
+                <div class="upload-section">
+                    <div class="card">
+                        <div class="card-header">
+                            <h2 class="card-title">Upload Files</h2>
+                            <p class="card-subtitle">Securely store and share your files with advanced access controls</p>
+                        </div>
+                        <div class="card-body">
+                            <div class="upload-dropzone" id="uploadZone">
+                                <input type="file" id="fileInput" multiple class="sr-only">
+                                <div class="upload-icon">📁</div>
+                                <div class="upload-text">Drop files here to upload</div>
+                                <div class="upload-subtext">or click to browse • Support for all file types • Max 100MB per file</div>
+                            </div>
+                            <div id="uploadOptions" class="hidden" style="margin-top: var(--space-6);">
+                                <div class="form-group">
+                                    <label class="form-label" for="fileName">Custom File Name (Optional)</label>
+                                    <input type="text" class="form-control" id="fileName" placeholder="Leave blank to use original name">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="fileDescription">Description (Optional)</label>
+                                    <input type="text" class="form-control" id="fileDescription" placeholder="Add a description for your file">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="accessLevel">Access Level</label>
+                                    <select class="form-control form-select" id="accessLevel">
+                                        <option value="public">🌐 Public Access - Anyone with link</option>
+                                        <option value="password">🔒 Password Protected - Custom password required</option>
+                                        <option value="private">🔐 Private Access - Auto-generated secure code</option>
+                                    </select>
+                                </div>
+                                <div class="form-group hidden" id="passwordGroup">
+                                    <label class="form-label" for="filePassword">Set Password</label>
+                                    <input type="password" class="form-control" id="filePassword" placeholder="Create a strong password">
+                                </div>
+                                <div class="alert alert-warning hidden" id="privateAlert">🔐 A secure 8-character access code will be automatically generated for this file.</div>
+                                <div id="uploadAlert"></div>
+                                <button class="btn btn-primary btn-lg" style="width: 100%;" id="uploadButton"><span>Upload Files</span></button>
+                                <div class="progress-bar hidden" id="progressBar">
+                                    <div class="progress-fill" id="progressFill"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="files-section">
+                    <div class="card">
+                        <div class="card-header flex items-center justify-between">
+                            <div>
+                                <h2 class="card-title">My Files</h2>
+                                <p class="card-subtitle">Manage your uploaded files and sharing settings</p>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <span class="text-sm text-secondary" id="fileCount">0 files</span>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div id="filesContainer">
+                                <div class="empty-state">
+                                    <div class="empty-icon">📂</div>
+                                    <h3 style="margin-bottom: var(--space-2); color: var(--text-primary);">No files yet</h3>
+                                    <p>Upload your first file to get started with CloudVault Pro</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <div class="modal-backdrop" id="shareModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title">Share File</h3>
+                <button class="modal-close" onclick="closeModal('shareModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p style="color: var(--text-secondary); margin-bottom: var(--space-4);">Share this secure link to give others access to your file</p>
+                <div class="link-display" id="shareLink"></div>
+                <div id="shareInfo" class="alert hidden"></div>
+                <div style="margin-top: var(--space-4);">
+                    <button class="btn btn-primary" id="copyLinkBtn" style="width: 100%;">📋 Copy Link to Clipboard</button>
+                </div>
+                <div id="copySuccess" class="alert alert-success hidden" style="margin-top: var(--space-3);">✅ Link copied successfully!</div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-backdrop" id="accessModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title" id="accessModalTitle">🔒 Authentication Required</h3>
+                <button class="modal-close" onclick="closeModal('accessModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p style="color: var(--text-secondary); margin-bottom: var(--space-4);" id="accessDescription">This file is protected. Please provide the required credentials to access it.</p>
+                <div class="form-group">
+                    <label class="form-label" id="accessLabel">Password</label>
+                    <input type="password" class="form-control" id="accessInput" placeholder="Enter password or access code">
+                </div>
+                <div id="accessAlert"></div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" onclick="closeModal('accessModal')">Cancel</button>
+                <button class="btn btn-primary" id="verifyAccessBtn">Verify Access</button>
+            </div>
+        </div>
+    </div>
+    <div class="modal-backdrop" id="codeModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title">🔐 Access Code Generated</h3>
+            </div>
+            <div class="modal-body">
+                <p style="color: var(--text-secondary); margin-bottom: var(--space-4);">Your file has been secured with a private access code. Save this code to access your file later:</p>
+                <div class="link-display" id="generatedCode" style="font-size: var(--text-xl); font-weight: 700; text-align: center; letter-spacing: 3px;"></div>
+                <div class="alert alert-warning">⚠️ <strong>Important:</strong> This code will only be shown once. Make sure to save it securely.</div>
+                <button class="btn btn-primary" id="copyCodeBtn" style="width: 100%; margin-top: var(--space-4);">📋 Copy Access Code</button>
+            </div>
+        </div>
+    </div>
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <span>Built with</span>
+                <span class="footer-heart">❤️</span>
+                <span>by Arpan • CloudVault Pro v2.1</span>
+            </div>
+        </div>
+    </footer>
+    <script>
+        class CloudVaultApp {
+            constructor() {
+                this.currentUser = null;
+                this.selectedFiles = [];
+                this.currentFileForAccess = null;
+                this.users = this.loadFromStorage('cloudvault_users', {});
+                this.files = this.loadFromStorage('cloudvault_files', {});
+                this.initializeApp();
+            }
+            loadFromStorage(key, defaultValue) {
+                try {
+                    const data = localStorage.getItem(key);
+                    return data ? JSON.parse(data) : defaultValue;
+                } catch (error) {
+                    console.error('Storage error:', error);
+                    return defaultValue;
+                }
+            }
+            saveToStorage(key, data) {
+                try {
+                    localStorage.setItem(key, JSON.stringify(data));
+                } catch (error) {
+                    console.error('Storage save error:', error);
+                }
+            }
+            initializeApp() {
+                this.setupEventListeners();
+                this.checkUrlParameters();
+            }
+            setupEventListeners() {
+                document.getElementById('authForm').addEventListener('submit', (e) => this.handleAuth(e));
+                document.getElementById('loginBtn').addEventListener('click', () => this.switchAuthMode('login'));
+                document.getElementById('registerBtn').addEventListener('click', () => this.switchAuthMode('register'));
+                document.getElementById('logoutBtn').addEventListener('click', () => this.handleLogout());
+                document.querySelectorAll('.auth-tab').forEach(tab => {
+                    tab.addEventListener('click', (e) => this.switchAuthTab(e.target.dataset.tab));
+                });
+                document.getElementById('uploadZone').addEventListener('click', () => {
+                    document.getElementById('fileInput').click();
+                });
+                document.getElementById('fileInput').addEventListener('change', (e) => this.handleFileSelect(e));
+                document.getElementById('uploadButton').addEventListener('click', () => this.uploadFiles());
+                const uploadZone = document.getElementById('uploadZone');
+                uploadZone.addEventListener('dragover', (e) => this.handleDragOver(e));
+                uploadZone.addEventListener('dragleave', (e) => this.handleDragLeave(e));
+                uploadZone.addEventListener('drop', (e) => this.handleDrop(e));
+                document.getElementById('accessLevel').addEventListener('change', (e) => this.handleAccessLevelChange(e));
+                document.getElementById('copyLinkBtn').addEventListener('click', () => this.copyShareLink());
+                document.getElementById('copyCodeBtn').addEventListener('click', () => this.copyAccessCode());
+                document.getElementById('verifyAccessBtn').addEventListener('click', () => this.verifyAccess());
+            }
+            switchAuthMode(mode) {
+                this.switchAuthTab(mode);
+            }
+            switchAuthTab(mode) {
+                document.querySelectorAll('.auth-tab').forEach(tab => tab.classList.remove('active'));
+                document.querySelector(`[data-tab="${mode}"]`).classList.add('active');
+                const submitBtn = document.getElementById('authSubmit');
+                if (mode === 'login') {
+                    submitBtn.textContent = 'Sign In to CloudVault Pro';
+                } else {
+                    submitBtn.textContent = 'Create CloudVault Account';
+                }
+            }
+            async handleAuth(e) {
+                e.preventDefault();
+                const username = document.getElementById('username').value.trim();
+                const password = document.getElementById('password').value;
+                const isLogin = document.querySelector('.auth-tab.active').dataset.tab === 'login';
+                if (!username || !password) {
+                    this.showAlert('authAlert', 'Please fill in all fields', 'error');
+                    return;
+                }
+                if (isLogin) {
+                    await this.handleLogin(username, password);
+                } else {
+                    await this.handleRegister(username, password);
+                }
+            }
+            async handleLogin(username, password) {
+                if (!this.users[username] || this.users[username].password !== btoa(password)) {
+                    this.showAlert('authAlert', 'Invalid credentials. Please check your username and password.', 'error');
+                    return;
+                }
+                this.currentUser = username;
+                this.showDashboard();
+                this.loadUserFiles();
+            }
+            async handleRegister(username, password) {
+                if (this.users[username]) {
+                    this.showAlert('authAlert', 'Username already exists. Please choose a different username.', 'error');
+                    return;
+                }
+                if (password.length < 6) {
+                    this.showAlert('authAlert', 'Password must be at least 6 characters long.', 'error');
+                    return;
+                }
+                this.users[username] = { password: btoa(password), createdAt: new Date().toISOString() };
+                this.saveToStorage('cloudvault_users', this.users);
+                this.showAlert('authAlert', 'Account created successfully! You can now sign in.', 'success');
+                this.switchAuthTab('login');
+                document.getElementById('username').value = username;
+                document.getElementById('password').value = '';
+            }
+            handleLogout() {
+                this.currentUser = null;
+                document.getElementById('authSection').classList.remove('hidden');
+                document.getElementById('dashboardSection').classList.add('hidden');
+                document.getElementById('loginBtn').classList.remove('hidden');
+                document.getElementById('registerBtn').classList.remove('hidden');
+                document.getElementById('logoutBtn').classList.add('hidden');
+                document.getElementById('username').value = '';
+                document.getElementById('password').value = '';
+                this.switchAuthTab('login');
+            }
+            showDashboard() {
+                document.getElementById('authSection').classList.add('hidden');
+                document.getElementById('dashboardSection').classList.remove('hidden');
+                document.getElementById('loginBtn').classList.add('hidden');
+                document.getElementById('registerBtn').classList.add('hidden');
+                document.getElementById('logoutBtn').classList.remove('hidden');
+            }
+            handleFileSelect(e) {
+                this.selectedFiles = Array.from(e.target.files);
+                this.showUploadOptions();
+            }
+            handleDragOver(e) {
+                e.preventDefault();
+                document.getElementById('uploadZone').classList.add('dragover');
+            }
+            handleDragLeave(e) {
+                e.preventDefault();
+                document.getElementById('uploadZone').classList.remove('dragover');
+            }
+            handleDrop(e) {
+                e.preventDefault();
+                document.getElementById('uploadZone').classList.remove('dragover');
+                this.selectedFiles = Array.from(e.dataTransfer.files);
+                this.showUploadOptions();
+            }
+            showUploadOptions() {
+                const options = document.getElementById('uploadOptions');
+                options.classList.remove('hidden');
+                if (this.selectedFiles.length === 1) {
+                    document.getElementById('fileName').placeholder = `Default: ${this.selectedFiles[0].name}`;
+                } else {
+                    document.getElementById('fileName').placeholder = `${this.selectedFiles.length} files selected`;
+                }
+            }
+            handleAccessLevelChange(e) {
+                const level = e.target.value;
+                const passwordGroup = document.getElementById('passwordGroup');
+                const privateAlert = document.getElementById('privateAlert');
+                passwordGroup.classList.toggle('hidden', level !== 'password');
+                privateAlert.classList.toggle('hidden', level !== 'private');
+            }
+            async uploadFiles() {
+                if (this.selectedFiles.length === 0) return;
+                const accessLevel = document.getElementById('accessLevel').value;
+                const password = document.getElementById('filePassword').value;
+                const fileName = document.getElementById('fileName').value.trim();
+                const description = document.getElementById('fileDescription').value.trim();
+                if (accessLevel === 'password' && !password) {
+                    this.showAlert('uploadAlert', 'Please set a password for password-protected files.', 'error');
+                    return;
+                }
+                await this.processFileUploads(accessLevel, password, fileName, description);
+            }
+            async processFileUploads(accessLevel, password, fileName, description) {
+                const progressBar = document.getElementById('progressBar');
+                const progressFill = document.getElementById('progressFill');
+                progressBar.classList.remove('hidden');
+                let progress = 0;
+                const updateProgress = () => {
+                    progress += Math.random() * 15;
+                    if (progress > 90) progress = 90;
+                    progressFill.style.width = progress + '%';
+                };
+                const progressInterval = setInterval(updateProgress, 200);
+                try {
+                    const filePromises = this.selectedFiles.map((file, index) => this.processFile(file, index, {
+                        accessLevel, password, fileName, description
+                    }));
+                    const results = await Promise.all(filePromises);
+                    clearInterval(progressInterval);
+                    progressFill.style.width = '100%';
+                    const privateFiles = results.filter(r => r.accessLevel === 'private');
+                    if (privateFiles.length > 0) {
+                        this.showAccessCode(privateFiles[0].privateCode);
+                    } else {
+                        this.showAlert('uploadAlert', `Successfully uploaded ${results.length} file${results.length > 1 ? 's' : ''}!`, 'success');
+                    }
+                    this.resetUploadForm();
+                    this.loadUserFiles();
+                } catch (error) {
+                    clearInterval(progressInterval);
+                    this.showAlert('uploadAlert', 'Upload failed. Please try again.', 'error');
+                    console.error('Upload error:', error);
+                }
+            }
+            processFile(file, index, options) {
+                return new Promise((resolve) => {
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        const fileData = {
+                            id: Date.now() + '-' + Math.random().toString(36).substr(2, 9),
+                            name: this.selectedFiles.length === 1 && options.fileName ? options.fileName : file.name,
+                            originalName: file.name,
+                            size: file.size,
+                            type: file.type,
+                            description: options.description,
+                            data: e.target.result,
+                            accessLevel: options.accessLevel,
+                            password: options.accessLevel === 'password' ? btoa(options.password) : null,
+                            privateCode: options.accessLevel === 'private' ? this.generateAccessCode() : null,
+                            uploadDate: new Date().toISOString(),
+                            owner: this.currentUser
+                        };
+                        if (!this.files[this.currentUser]) {
+                            this.files[this.currentUser] = [];
+                        }
+                        this.files[this.currentUser].push(fileData);
+                        this.saveToStorage('cloudvault_files', this.files);
+                        resolve(fileData);
+                    };
+                    reader.readAsDataURL(file);
+                });
+            }
+            generateAccessCode() {
+                const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+                return Array.from({ length: 8 }, () => chars[Math.floor(Math.random() * chars.length)]).join('');
+            }
+            resetUploadForm() {
+                this.selectedFiles = [];
+                document.getElementById('fileInput').value = '';
+                document.getElementById('fileName').value = '';
+                document.getElementById('fileDescription').value = '';
+                document.getElementById('filePassword').value = '';
+                document.getElementById('accessLevel').value = 'public';
+                document.getElementById('uploadOptions').classList.add('hidden');
+                document.getElementById('progressBar').classList.add('hidden');
+                document.getElementById('progressFill').style.width = '0%';
+                document.getElementById('passwordGroup').classList.add('hidden');
+                document.getElementById('privateAlert').classList.add('hidden');
+            }
+            loadUserFiles() {
+                const container = document.getElementById('filesContainer');
+                const userFiles = this.files[this.currentUser] || [];
+                document.getElementById('fileCount').textContent = `${userFiles.length} file${userFiles.length !== 1 ? 's' : ''}`;
+                if (userFiles.length === 0) {
+                    container.innerHTML = `<div class="empty-state"><div class="empty-icon">📂</div><h3 style="margin-bottom: var(--space-2); color: var(--text-primary);">No files yet</h3><p>Upload your first file to get started with CloudVault Pro</p></div>`;
+                    return;
+                }
+                container.innerHTML = '<div class="files-grid" id="filesGrid"></div>';
+                const grid = document.getElementById('filesGrid');
+                userFiles.reverse().forEach(file => {
+                    const fileCard = this.createFileCard(file);
+                    grid.appendChild(fileCard);
+                });
+            }
+            createFileCard(file) {
+                const card = document.createElement('div');
+                card.className = 'file-card';
+                const icon = this.getFileIcon(file.type);
+                const iconBg = this.getFileIconBg(file.type);
+                const sizeFormatted = this.formatFileSize(file.size);
+                const dateFormatted = new Date(file.uploadDate).toLocaleDateString('en-US', {
+                    year: 'numeric', month: 'short', day: 'numeric'
+                });
+                const securityBadge = this.getSecurityBadge(file);
+                const privateCodeDisplay = file.privateCode ? `<div style="margin-top: var(--space-3); padding: var(--space-3); background: var(--violet-50); border-radius: var(--radius-md); font-family: var(--font-mono);"><div style="font-size: var(--text-xs); color: var(--info); margin-bottom: var(--space-1);">Access Code:</div><div style="font-weight: 600; color: var(--info); letter-spacing: 2px;">${file.privateCode}</div></div>` : '';
+                card.innerHTML = `<div class="file-header"><div class="file-icon" style="background: ${iconBg}; color: white;">${icon}</div><div class="file-info"><div class="file-name">${file.name}</div><div class="file-meta">${sizeFormatted} • ${dateFormatted}</div>${file.description ? `<div style="font-size: var(--text-sm); color: var(--text-secondary); margin-top: var(--space-1);">${file.description}</div>` : ''}</div></div><div class="file-security">${securityBadge}${privateCodeDisplay}</div><div class="file-actions"><button class="btn btn-primary btn-sm" onclick="app.downloadFile('${file.id}')" style="flex: 1;">⬇️ Download</button><button class="btn btn-secondary btn-sm" onclick="app.shareFile('${file.id}')" style="flex: 1;">🔗 Share</button><button class="btn btn-danger btn-sm" onclick="app.deleteFile('${file.id}')">🗑️</button></div>`;
+                return card;
+            }
+            getFileIcon(type) {
+                if (type.startsWith('image/')) return '🖼️';
+                if (type.startsWith('video/')) return '🎥';
+                if (type.startsWith('audio/')) return '🎵';
+                if (type.includes('pdf')) return '📄';
+                if (type.includes('word') || type.includes('document')) return '📝';
+                if (type.includes('sheet') || type.includes('excel')) return '📊';
+                if (type.includes('zip') || type.includes('rar')) return '📦';
+                if (type.includes('json') || type.includes('javascript')) return '⚡';
+                return '📄';
+            }
+            getFileIconBg(type) {
+                if (type.startsWith('image/')) return 'linear-gradient(135deg, #f59e0b, #d97706)';
+                if (type.startsWith('video/')) return 'linear-gradient(135deg, #ef4444, #dc2626)';
+                if (type.startsWith('audio/')) return 'linear-gradient(135deg, #8b5cf6, #7c3aed)';
+                if (type.includes('pdf')) return 'linear-gradient(135deg, #ef4444, #dc2626)';
+                if (type.includes('word') || type.includes('document')) return 'linear-gradient(135deg, #3b82f6, #2563eb)';
+                if (type.includes('sheet') || type.includes('excel')) return 'linear-gradient(135deg, #10b981, #059669)';
+                if (type.includes('zip') || type.includes('rar')) return 'linear-gradient(135deg, #64748b, #475569)';
+                return 'linear-gradient(135deg, #6b7280, #4b5563)';
+            }
+            getSecurityBadge(file) {
+                switch (file.accessLevel) {
+                    case 'public': return '<div class="security-badge security-public">🌐 Public Access</div>';
+                    case 'password': return '<div class="security-badge security-password">🔒 Password Protected</div>';
+                    case 'private': return '<div class="security-badge security-private">🔐 Private Access</div>';
+                    default: return '<div class="security-badge security-public">🌐 Public Access</div>';
+                }
+            }
+            formatFileSize(bytes) {
+                if (bytes === 0) return '0 B';
+                const k = 1024;
+                const sizes = ['B', 'KB', 'MB', 'GB'];
+                const i = Math.floor(Math.log(bytes) / Math.log(k));
+                return Math.round(bytes / Math.pow(k, i) * 100) / 100 + ' ' + sizes[i];
+            }
+            downloadFile(fileId) {
+                const userFiles = this.files[this.currentUser] || [];
+                const file = userFiles.find(f => f.id === fileId);
+                if (!file) return;
+                if (file.accessLevel !== 'public') {
+                    this.currentFileForAccess = file;
+                    this.showAccessModal(file);
+                    return;
+                }
+                this.performDownload(file);
+            }
+            performDownload(file) {
+                const link = document.createElement('a');
+                link.href = file.data;
+                link.download = file.name;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            }
+            shareFile(fileId) {
+                const userFiles = this.files[this.currentUser] || [];
+                const file = userFiles.find(f => f.id === fileId);
+                if (!file) return;
+                const shareUrl = `${window.location.origin}${window.location.pathname}?file=${fileId}&user=${this.currentUser}`;
+                document.getElementById('shareLink').textContent = shareUrl;
+                const shareInfo = document.getElementById('shareInfo');
+                shareInfo.classList.remove('hidden', 'alert-warning', 'alert-success');
+                if (file.accessLevel === 'password') {
+                    shareInfo.className = 'alert alert-warning';
+                    shareInfo.innerHTML = '🔒 <strong>Password Protected:</strong> Recipients will need the password to access this file.';
+                } else if (file.accessLevel === 'private') {
+                    shareInfo.className = 'alert alert-warning';
+                    shareInfo.innerHTML = `🔐 <strong>Access Code Required:</strong> Recipients will need this code: <code style="background: var(--bg-tertiary); padding: 2px 6px; border-radius: 4px; font-weight: 600;">${file.privateCode}</code>`;
+                } else {
+                    shareInfo.className = 'alert alert-success';
+                    shareInfo.innerHTML = '🌐 <strong>Public Access:</strong> Anyone with this link can access the file.';
+                }
+                this.openModal('shareModal');
+            }
+            deleteFile(fileId) {
+                if (!confirm('Are you sure you want to permanently delete this file?')) return;
+                const userFiles = this.files[this.currentUser] || [];
+                const index = userFiles.findIndex(f => f.id === fileId);
+                if (index !== -1) {
+                    userFiles.splice(index, 1);
+                    this.files[this.currentUser] = userFiles;
+                    this.saveToStorage('cloudvault_files', this.files);
+                    this.loadUserFiles();
+                }
+            }
+            showAccessModal(file) {
+                const modal = document.getElementById('accessModal');
+                const title = document.getElementById('accessModalTitle');
+                const description = document.getElementById('accessDescription');
+                const label = document.getElementById('accessLabel');
+                const input = document.getElementById('accessInput');
+                if (file.accessLevel === 'password') {
+                    title.textContent = '🔒 Password Required';
+                    description.textContent = 'This file is password protected. Enter the password to access it.';
+                    label.textContent = 'Password';
+                    input.placeholder = 'Enter password';
+                } else if (file.accessLevel === 'private') {
+                    title.textContent = '🔐 Access Code Required';
+                    description.textContent = 'This file requires a private access code. Enter the 8-character code to access it.';
+                    label.textContent = 'Access Code';
+                    input.placeholder = 'Enter 8-character code';
+                }
+                this.openModal('accessModal');
+            }
+            verifyAccess() {
+                const input = document.getElementById('accessInput').value.trim();
+                const file = this.currentFileForAccess;
+                if (!file || !input) return;
+                let isValid = false;
+                if (file.accessLevel === 'password') {
+                    isValid = btoa(input) === file.password;
+                } else if (file.accessLevel === 'private') {
+                    isValid = input.toUpperCase() === file.privateCode;
+                }
+                if (isValid) {
+                    this.closeModal('accessModal');
+                    this.performDownload(file);
+                    this.currentFileForAccess = null;
+                    document.getElementById('accessInput').value = '';
+                } else {
+                    this.showAlert('accessAlert', 'Invalid credentials. Please try again.', 'error');
+                }
+            }
+            showAccessCode(code) {
+                document.getElementById('generatedCode').textContent = code;
+                this.openModal('codeModal');
+            }
+            copyShareLink() {
+                const link = document.getElementById('shareLink').textContent;
+                navigator.clipboard.writeText(link).then(() => {
+                    const success = document.getElementById('copySuccess');
+                    success.classList.remove('hidden');
+                    setTimeout(() => success.classList.add('hidden'), 3000);
+                }).catch(() => {
+                    this.showAlert('shareAlert', 'Failed to copy link', 'error');
+                });
+            }
+            copyAccessCode() {
+                const code = document.getElementById('generatedCode').textContent;
+                navigator.clipboard.writeText(code).then(() => {
+                    const btn = document.getElementById('copyCodeBtn');
+                    const originalText = btn.innerHTML;
+                    btn.innerHTML = '✅ Copied Successfully!';
+                    setTimeout(() => {
+                        btn.innerHTML = originalText;
+                        this.closeModal('codeModal');
+                    }, 1500);
+                }).catch(() => {
+                    alert('Failed to copy access code');
+                });
+            }
+            openModal(modalId) {
+                document.getElementById(modalId).classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+            closeModal(modalId) {
+                document.getElementById(modalId).classList.remove('active');
+                document.body.style.overflow = '';
+            }
+            showAlert(containerId, message, type) {
+                const container = document.getElementById(containerId);
+                container.className = `alert alert-${type}`;
+                container.innerHTML = `${type === 'success' ? '✅' : type === 'error' ? '❌' : '⚠️'} ${message}`;
+                setTimeout(() => container.className = '', 5000);
+            }
+            checkUrlParameters() {
+                const urlParams = new URLSearchParams(window.location.search);
+                const fileId = urlParams.get('file');
+                const userId = urlParams.get('user');
+                if (fileId && userId) {
+                    const userFiles = this.files[userId] || [];
+                    const file = userFiles.find(f => f.id === fileId);
+                    if (file) {
+                        if (file.accessLevel !== 'public') {
+                            this.currentFileForAccess = file;
+                            this.showAccessModal(file);
+                        } else {
+                            this.performDownload(file);
+                        }
+                    } else {
+                        alert('File not found or has been deleted.');
+                    }
+                }
+            }
+        }
+        function closeModal(modalId) {
+            app.closeModal(modalId);
+        }
+        const app = new CloudVaultApp();
+    </script>
+</body>
+</html>
