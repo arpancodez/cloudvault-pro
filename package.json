@@ -1,0 +1,27 @@
+{
+  "name": "cloudvault-pro",
+  "version": "2.1.0",
+  "description": "Enterprise-grade secure file storage and sharing platform with advanced access controls",
+  "main": "index.html",
+  "scripts": {
+    "start": "npx serve .",
+    "deploy": "vercel --prod"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/arpancodez/cloudvault-pro"
+  },
+  "keywords": [
+    "cloud-storage",
+    "file-sharing",
+    "secure-storage",
+    "encryption",
+    "web-app"
+  ],
+  "author": "Arpan",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/arpancodez/cloudvault-pro/issues"
+  },
+  "homepage": "https://github.com/arpancodez/cloudvault-pro#readme"
+}
